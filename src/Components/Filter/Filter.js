@@ -1,7 +1,11 @@
-import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { filterContact } from '../../redux/actions';
 import style from './Filte.module.css';
 
-const Filter = ({ value, onChange }) => {
+const Filter = () => {
+  const filter = useSelector(state => state.filter);
+  const dispatch = useDispatch();
+  const handleChangeFilter = e => dispatch(filterContact(e.target.value));
   return (
     <div className={style.divFilter}>
       <label className={style.inputLabel}>
@@ -9,9 +13,9 @@ const Filter = ({ value, onChange }) => {
         <input
           className={style.inputFilter}
           type="text"
-          value={value}
+          value={filter}
           name="search"
-          onChange={onChange}
+          onChange={handleChangeFilter}
         />
       </label>
     </div>
