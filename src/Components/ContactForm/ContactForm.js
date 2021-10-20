@@ -10,9 +10,6 @@ const ContactForm = () => {
   const { contacts } = useSelector(state => state);
   const dispatch = useDispatch();
 
-  const handleAddContacts = (contactName, contactNumber) =>
-    dispatch(addContact(contactName, contactNumber));
-
   const handleChange = e => {
     const { name, value } = e.target;
     switch (name) {
@@ -43,7 +40,7 @@ const ContactForm = () => {
     if (isContactExist(contactName)) {
       alert(`${contactName} is already in contacts!`);
     } else {
-      handleAddContacts(contactName, contactNumber);
+      dispatch(addContact({ contactName, contactNumber }));
       reset();
     }
   };
