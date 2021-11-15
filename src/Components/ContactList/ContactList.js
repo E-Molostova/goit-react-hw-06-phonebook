@@ -1,31 +1,25 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/contacts/actions';
-import PropTypes from 'prop-types';
+import { deleteContact } from '../../redux/contacts/contacts-action';
 import style from './ContactList.module.css';
 
 const ContactList = () => {
-  const { contacts, filter } = useSelector(state => state);
+  const { contacts, filter } = useSelector(state => state.phonebook);
   const dispatch = useDispatch();
 
-  const onDeleteBtn = id => dispatch(deleteContact(id));
-
-  const filteredContacts = (contacts, filter) => {
-    console.log(contacts);
-    return contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
-  };
-
-  const filterContacts = filteredContacts(contacts, filter);
+  const getFilteredContacts = (contacts, filter) =>
+    contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()));
+  const filteredContacts = getFilteredContacts(contacts, filter);
 
   return (
     <ul className={style.contactsList}>
-      {filterContacts.map(contact => (
+      {filteredContacts.map(contact => (
         <li className={style.contactsItem} key={contact.id}>
           <p>{contact.name + ': ' + contact.number}</p>
           <button
             className={style.contactsDeleteBtn}
             id={contact.id}
             type="button"
-            onClick={e => onDeleteBtn(contact.id)}
+            onClick={e => dispatch(deleteContact(e.target.id))}
           >
             Delete
           </button>
@@ -35,8 +29,14 @@ const ContactList = () => {
   );
 };
 
-ContactList.propTypes = {
-  contacts: PropTypes.array,
-  onDeleteBtn: PropTypes.func,
-};
 export default ContactList;
+
+// const mapStateToProps = state => {
+//   const { filter, contacts } = state.phonebook;
+//   const filteredContacts = getFiltered(contacts, filter);
+//   return {
+//     contacts: filteredContacts,
+//   };
+// };
+// const mapDispatchToProps = { deleteContact };
+// export default connect(mapStateToProps, mapDispatchToProps)(ContactList);

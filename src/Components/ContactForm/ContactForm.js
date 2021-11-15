@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { connect, useSelector, useDispatch } from 'react-redux';
-import { addContact } from '../../redux/contacts/actions';
+import { useSelector, useDispatch } from 'react-redux';
+import { addContact } from '../../redux/contacts/contacts-action';
 import style from './ContactForm.module.css';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const { contacts } = useSelector(state => state);
+
+  const { contacts } = useSelector(state => state.phonebook);
   const dispatch = useDispatch();
 
   const handleChange = e => {
@@ -78,13 +79,16 @@ const ContactForm = () => {
     </form>
   );
 };
+export default ContactForm;
 
-const mapStateToProps = state => {
-  return {
-    contacts: state.contacts,
-  };
-};
+// const mapStateToProps = state => ({
+//   contacts: state.phonebook.contacts,
+// });
+// const mapDispatchToProps = { addContact };
+// export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
 
-const mapDispatchToProps = { addContact };
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+// import PropTypes from 'prop-types';
+// ContactForm.propTypes = {
+//   addNewContact: PropTypes.func.isRequired,
+//   isContactExist: PropTypes.func.isRequired,
+// };

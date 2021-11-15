@@ -1,11 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { filterContact } from '../../redux/contacts/actions';
+import { filterContact } from '../../redux/contacts/contacts-action';
 import style from './Filte.module.css';
 
 const Filter = () => {
-  const filter = useSelector(state => state.filter);
+  const { filter } = useSelector(state => state);
   const dispatch = useDispatch();
-  const handleChangeFilter = e => dispatch(filterContact(e.target.value));
+
   return (
     <div className={style.divFilter}>
       <label className={style.inputLabel}>
@@ -15,7 +15,7 @@ const Filter = () => {
           type="text"
           value={filter}
           name="search"
-          onChange={handleChangeFilter}
+          onChange={e => dispatch(filterContact(e.target.value))}
         />
       </label>
     </div>
@@ -23,3 +23,9 @@ const Filter = () => {
 };
 
 export default Filter;
+
+// const mapStateToProps = state => ({
+//   filter: state.phonebook.filter,
+// });
+// const mapDispatchToProps = { filterContact };
+// export default connect(mapStateToProps, mapDispatchToProps)(Filter);
